@@ -20,6 +20,11 @@
     ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
   };
 
+  var randomInteger = function (min, max) {
+    var rand = min - 0.5 + Math.random() * (max - min + 1);
+    return Math.round(rand);
+  };
+
   var getMaxElement = function (array) {
     var maxElement = array[0];
 
@@ -30,11 +35,6 @@
     }
 
     return maxElement;
-  };
-
-  var randomInteger = function (min, max) {
-    var rand = min - 0.5 + Math.random() * (max - min + 1);
-    return Math.round(rand);
   };
 
   window.renderStatistics = function (ctx, players, times) {
