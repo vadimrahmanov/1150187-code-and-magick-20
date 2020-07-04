@@ -6,10 +6,16 @@
   var setup = document.querySelector('.setup');
   var similarListElement = document.querySelector('.setup-similar-list');
   var template = document.querySelector('#similar-wizard-template').content;
+  var form = setup.querySelector('.setup-wizard-form');
 
-  var getRandomNumber = function (num) {
-    var randomNumber = Math.round(Math.random() * num);
-    return randomNumber;
+  var shuffleArray = function (arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var num = Math.floor(Math.random() * (i + 1));
+      var d = arr[num];
+      arr[num] = arr[i];
+      arr[i] = d;
+    }
+    return arr;
   };
 
   var renderWizard = function (wizard) {
@@ -22,9 +28,9 @@
 
   var successHandler = function (wizards) {
     var fragment = document.createDocumentFragment();
-
+    var randomWizards = shuffleArray(wizards);
     for (var i = 0; i < WIZARDS_AMOUNT; i++) {
-      fragment.appendChild(renderWizard(wizards[getRandomNumber(16)]));
+      fragment.appendChild(renderWizard(randomWizards[i]));
     }
     similarListElement.appendChild(fragment);
 
@@ -45,7 +51,6 @@
 
   window.backend.load(successHandler, errorHandler);
 
-  var form = setup.querySelector('.setup-wizard-form');
   var submitHandler = function (evt) {
     window.backend.save(new FormData(form), function () {
       setup.classList.add('hidden');

@@ -1,16 +1,18 @@
-/* eslint-disable no-console */
 'use strict';
 
 (function () {
-  var DATA_URL = 'https://javascript.pages.academy/code-and-magick/data';
-  var POST_URL = 'https://javascript.pages.academy/code-and-magick';
-
   var StatusCode = {
     OK: 200
   };
+
+  var Url = {
+    GET_DATA: 'https://javascript.pages.academy/code-and-magick/data',
+    POST_DATA: 'https://javascript.pages.academy/code-and-magick'
+  };
+
   var TIMEOUT_IN_MS = 10000;
 
-  var getData = function (onLoad, onError) {
+  var createRequest = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -29,20 +31,18 @@
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
+    return xhr;
+  };
 
-    xhr.open('GET', DATA_URL);
+  var getData = function (onLoad, onError) {
+    var xhr = createRequest(onLoad, onError);
+    xhr.open('GET', Url.GET_DATA);
     xhr.send();
   };
 
-  var postData = function (data, onLoad) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
-    xhr.addEventListener('load', function () {
-      onLoad(xhr.response);
-    });
-
-    xhr.open('POST', POST_URL);
+  var postData = function (data, onLoad, onError) {
+    var xhr = createRequest(onLoad, onError);
+    xhr.open('POST', Url.POST_DATA);
     xhr.send(data);
   };
 
